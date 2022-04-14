@@ -4,6 +4,7 @@ public abstract class Item {
 	protected String name;
 	protected String description;
 	protected String function;
+	protected String type;
 	
 	protected double effect_amount;
 	
@@ -46,27 +47,30 @@ abstract class BuffingItem extends Item {
 
 class Potion extends HealingItem {
 	public Potion () {
-		name = "Potion";
+		name = "Potion\t\t";
 		description = "A simple potion";
 		function = "Heals a small amount of HP.";
+		type = "Healing";
 		effect_amount = 15;
 	}
 }
 
 class Elixir extends HealingItem {
 	public Elixir () {
-		name = "Elixir of Vitality";
+		name = "Elixir of Vitality\t";
 		description = "A golden colored liquid, surely it's not...?";
 		function = "Heals a moderate amount of HP";
+		type = "Healing";
 		effect_amount = 30;
 	}
 }
 
 class StrengthPotion extends BuffingItem {
 	public StrengthPotion () {
-		name = "Essence of Strength";
+		name = "Fortifier\t\t";
 		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for [" + duration + "] turns.";
+		type = "Utility";
 		effect_amount = 30;
 	}
 }

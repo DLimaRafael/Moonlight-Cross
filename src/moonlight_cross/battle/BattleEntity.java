@@ -88,6 +88,9 @@ public abstract class BattleEntity {
      * This collection of functions serve the purpose of giving support
      * to a buff/debuff system by matching Strings and modifiers, applying
      * them to stats and cleaning afterwards.
+     * 
+     * Yes, I know it isn't ideal, probably, but doing it the proper way doesn't
+     * seem half as fun so this is what we're going with for now.
      * */
     public double getMod(String stat) {
     	double mod = 0;
@@ -104,8 +107,10 @@ public abstract class BattleEntity {
     }
     
     public void resetStat(String stat) {
-    	if (mods.isEmpty()) return;
+    	if (mods.isEmpty()) return; // Self-explanatory
+    	// Iterates through mods for every String key in there
     	for (String j : mods.keySet()) {
+    		// Checks if current item is what the function is looking for
     		if (stat.equalsIgnoreCase(j)) {
     			System.out.println(j+ " "+ mods.get(j));
     		}

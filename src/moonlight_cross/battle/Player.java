@@ -1,11 +1,8 @@
 package moonlight_cross.battle;
 
-import java.util.LinkedHashMap;
-
 public class Player extends BattleEntity {
 	int MAX_MOON = 100;
 	int MOON = 0;
-	LinkedHashMap<String, Integer> items = new LinkedHashMap<>();
 	
     public Player(){
         MAX_HP = 20;
@@ -33,12 +30,13 @@ public class Player extends BattleEntity {
     // Currently a WIP, still thinking about how this should work.
     public void useItem(){
     	System.out.println("IVENTORY");
-    	items.put("Potion", 5);
-    	items.put("Elixir", 10);
-    	items.put("Chocolate bar", 2);
-    	items.put("Vigor Pills", 3);
-    	for (String i : items.keySet()) {
-    		System.out.println("> "+ i + "\tHEALS: " + items.get(i));
+    	items.put(new Potion(), 5);
+    	items.put(new Elixir(), 3);
+    	items.put(new StrengthPotion(), 2);
+    	System.out.println("ITEM NAME\t\tTYPE\t\tPOWER");
+    	for (Item i : items.keySet()) {
+    		System.out.println(
+    				"> " + i.name + i.type + "\t\t" + i.effect_amount);
     	}
     	System.out.println();
     }

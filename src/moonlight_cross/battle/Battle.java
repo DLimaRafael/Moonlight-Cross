@@ -76,9 +76,6 @@ public class Battle {
             player.attack(enemy);
         } else if (action.equalsIgnoreCase("inv")) {
         	player.useItem();
-        	player.setMod("atk", 0.50);
-        	player.resetStat("atk");
-        	player.resetStat("def");
         	return;
         } else if (action.equalsIgnoreCase("def")){
             System.out.println("You defend, increasing DEF stat by [3]!");
