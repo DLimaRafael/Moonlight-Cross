@@ -76,6 +76,15 @@ public class Battle {
             player.attack(enemy);
         } else if (action.equalsIgnoreCase("inv")) {
         	player.useItem();
+            System.out.print("USE: ");
+            action = input.next();
+            for(Item i : player.items.keySet()){
+                if (action.equalsIgnoreCase(i.get_name())){
+                    System.out.println(i.get_name() + "\n" + i.get_description());
+                    break;
+                }
+            }
+
         	return;
         } else if (action.equalsIgnoreCase("def")){
             System.out.println("You defend, increasing DEF stat by [3]!");

@@ -14,12 +14,24 @@ public abstract class Item {
 	public String get_description() {
 		return description;
 	}
+	public String get_function(){
+		return function;
+	}
+	public String get_type(){
+		return type;
+	}
 	
 	public void set_name(String new_name) {
 		name = new_name;
 	}
 	public void set_description(String new_description) {
 		description = new_description;
+	}
+	public void set_function(String new_function){
+		function = new_function;
+	}
+	public void set_type(String new_type){
+		type = new_type;
 	}
 }
 
@@ -47,7 +59,7 @@ abstract class BuffingItem extends Item {
 
 class Potion extends HealingItem {
 	public Potion () {
-		name = "Potion\t\t";
+		name = "Potion";
 		description = "A simple potion";
 		function = "Heals a small amount of HP.";
 		type = "Healing";
@@ -57,7 +69,7 @@ class Potion extends HealingItem {
 
 class Elixir extends HealingItem {
 	public Elixir () {
-		name = "Elixir of Vitality\t";
+		name = "Elixir of Vitality";
 		description = "A golden colored liquid, surely it's not...?";
 		function = "Heals a moderate amount of HP";
 		type = "Healing";
@@ -67,7 +79,7 @@ class Elixir extends HealingItem {
 
 class StrengthPotion extends BuffingItem {
 	public StrengthPotion () {
-		name = "Fortifier\t\t";
+		name = "Fortifier";
 		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for [" + duration + "] turns.";
 		type = "Utility";

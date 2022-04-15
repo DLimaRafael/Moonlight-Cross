@@ -29,14 +29,14 @@ public class Player extends BattleEntity {
     
     // Currently a WIP, still thinking about how this should work.
     public void useItem(){
-    	System.out.println("IVENTORY");
+    	System.out.println("INVENTORY");
     	items.put(new Potion(), 5);
     	items.put(new Elixir(), 3);
     	items.put(new StrengthPotion(), 2);
     	System.out.println("ITEM NAME\t\tTYPE\t\tPOWER");
     	for (Item i : items.keySet()) {
     		System.out.println(
-    				"> " + i.name + i.type + "\t\t" + i.effect_amount);
+    				"> " + i.get_name());
     	}
     	System.out.println();
     }
