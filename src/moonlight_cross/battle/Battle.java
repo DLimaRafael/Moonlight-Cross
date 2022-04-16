@@ -27,6 +27,9 @@ public class Battle {
         
     }
     
+    /* Controls the flow of battle, alternating between enemy and player turns,
+    * recalculating modifiers, etc.
+    */
     public void battleControl(){
         while(player.isAlive || enemy.isAlive){
             if (!player.isAlive || !enemy.isAlive) break;
@@ -34,6 +37,7 @@ public class Battle {
             printUI();
             playerTurn();
             if (turn_end){
+                player.calcMods();
                 enemyTurn();
                 System.out.println("Press Enter to finish round.");
                 try {System.in.read();} catch (Exception e){}
@@ -88,7 +92,7 @@ public class Battle {
         	return;
         } else if (action.equalsIgnoreCase("def")){
             System.out.println("You defend, increasing DEF stat by [3]!");
-            player.DEF += 3;
+            player.setMod("def", 5.00, 1);
         } else {
         	System.out.println("Invalid command \"" + action + "\".");
         	return;

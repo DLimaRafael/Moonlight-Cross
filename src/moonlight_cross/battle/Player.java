@@ -22,11 +22,6 @@ public class Player extends BattleEntity {
         System.out.println("You deal "+ target.damage + " points of damage!");
     }
     
-    public void defend() {
-    	temp_stat = DEF;
-    	DEF += 3;
-    }
-    
     // Currently a WIP, still thinking about how this should work.
     public void useItem(){
     	System.out.println("INVENTORY");

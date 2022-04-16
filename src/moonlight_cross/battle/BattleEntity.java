@@ -2,6 +2,7 @@ package moonlight_cross.battle;
 
 import static java.lang.Integer.max;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /*
@@ -32,7 +33,7 @@ public abstract class BattleEntity {
      * mods, this leaves the original attribute intact, allowing for cleansing
      * of buffs/debuffs
      * */
-    HashMap<String, Double> mods = new HashMap<>();
+    HashMap<String, ArrayList<Double>> mods = new HashMap<>();
     HashMap<Item, Integer> items = new HashMap<>();
     
     // Getters and Setters
@@ -96,25 +97,36 @@ public abstract class BattleEntity {
     	double mod = 0;
     	for (String i : mods.keySet()) {
     		if (stat.equalsIgnoreCase(i)) {
-    			mod += mods.get(i);
+    			//mod += mods.get(i);
     		}
     	}
     	return mod;
     }
     
-    public void setMod(String stat, double mod) {
-    	mods.put(stat, mod);
+    public void setMod(String stat, Double mod, int duration) {
+    	mods.put(stat, new ArrayList<Double>());
+        mods.get(stat).add(mod);
+        mods.get(stat).add(Double.valueOf(duration));
+        System.out.println(mods);
     }
     
-    public void resetStat(String stat) {
+    public void calcMods() {
     	if (mods.isEmpty()) return; // Self-explanatory
     	// Iterates through mods for every String key in there
     	for (String j : mods.keySet()) {
-    		// Checks if current item is what the function is looking for
-    		if (stat.equalsIgnoreCase(j)) {
-    			System.out.println(j+ " "+ mods.get(j));
-    		}
+            Double mod_duration = mods.get(j).get(1);
+    		// Checks if modifier expired.
+    		if (mod_duration <= 0) {
+                System.out.println("Removing modifier " + j + "...");
+                mods.remove(j);
+            } else {
+                // Reduces duration counter otherwise
+                mod_duration -= 1;
+                mods.get(j).set(1, mod_duration);
+                System.out.println("Reduced duration counter of " + j + " modifier.");
+            }
     	}
+        System.out.println("New modifier list: " + mods);
     }
     
     // Functions relating to Inventory use

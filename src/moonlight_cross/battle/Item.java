@@ -5,7 +5,7 @@ public abstract class Item {
 	protected String description;
 	protected String function;
 	protected String type;
-	
+
 	protected double effect_amount;
 	
 	public String get_name() {
@@ -50,13 +50,18 @@ abstract class HealingItem extends Item {
 abstract class BuffingItem extends Item {
 	// The duration is set to a minimum of zero, being the current turn.
 	int duration = 0;
-	public void buff(BattleEntity target, String stat) {
-		target.setMod(stat, duration);
+	public void buff(BattleEntity target, Double mod, String stat) {
+		target.setMod(stat, mod, duration);
 	}
 }
 
 // ITEMS BELOW
-
+/*
+* Note to self:
+* I'll turn all the classes into interfaces later on, so
+* it's less dependant on inheritance and follows a more
+* composition based design.
+*/
 class Potion extends HealingItem {
 	public Potion () {
 		name = "Potion";
@@ -84,5 +89,6 @@ class StrengthPotion extends BuffingItem {
 		function = "Increases ATK attribute for [" + duration + "] turns.";
 		type = "Utility";
 		effect_amount = 30;
+		duration = 2;
 	}
 }
