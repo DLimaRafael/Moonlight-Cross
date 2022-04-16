@@ -91,8 +91,7 @@ public class Battle {
 
         	return;
         } else if (action.equalsIgnoreCase("def")){
-            System.out.println("You defend, increasing DEF stat by [3]!");
-            player.setMod("def", 5.00, 1);
+            player.defend();
         } else {
         	System.out.println("Invalid command \"" + action + "\".");
         	return;

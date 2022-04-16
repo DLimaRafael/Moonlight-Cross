@@ -1,7 +1,6 @@
 package moonlight_cross.battle;
 
-import static java.lang.Integer.max;
-
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -49,7 +48,7 @@ public abstract class BattleEntity {
         return HP;
     }
     public void setHp(int amount){
-        HP = max(amount, 0);
+        HP = Math.max(amount, 0);
         if (HP == 0){
             isAlive = false;
         }
@@ -76,11 +75,20 @@ public abstract class BattleEntity {
     }
     
     public void takeDamage(int amount){
-    	int def_mod = (int) (getMod("def") * DEF);
-        damage = max(amount - (DEF + def_mod), 0);
+        // Checks if there's a modifier applicable to Defense
+    	double def_mod = (getMod("def") * DEF);
+        /* Casts the final result as an int, since, if the modifier is
+        * initially lower than 1, it'll simply become zero. */
+        System.out.println(def_mod + " " + 3 + 0.5);
+        damage = Math.max(amount - (int) (DEF + def_mod), 0);
         setHp(HP - damage);
     }
     
+    public void defend(){
+        // Increases defense by 50%
+        System.out.println(NAME + " is defending!");
+        setMod("def", 0.50, 1);
+    }
     public void showInfo(){
         System.out.println("NAME: "+NAME+"\n"+DESCRIPTION);
     }
@@ -96,8 +104,9 @@ public abstract class BattleEntity {
     public double getMod(String stat) {
     	double mod = 0;
     	for (String i : mods.keySet()) {
-    		if (stat.equalsIgnoreCase(i)) {
-    			//mod += mods.get(i);
+            if (stat.equalsIgnoreCase(i)) {
+                // makes mod equal to the actual effect.
+    			mod = mods.get(i).get(0);
     		}
     	}
     	return mod;
@@ -107,7 +116,7 @@ public abstract class BattleEntity {
     	mods.put(stat, new ArrayList<Double>());
         mods.get(stat).add(mod);
         mods.get(stat).add(Double.valueOf(duration));
-        System.out.println(mods);
+        //System.out.println(mods);
     }
     
     public void calcMods() {
@@ -117,16 +126,16 @@ public abstract class BattleEntity {
             Double mod_duration = mods.get(j).get(1);
     		// Checks if modifier expired.
     		if (mod_duration <= 0) {
-                System.out.println("Removing modifier " + j + "...");
+                //System.out.println("Removing modifier " + j + "...");
                 mods.remove(j);
             } else {
                 // Reduces duration counter otherwise
                 mod_duration -= 1;
                 mods.get(j).set(1, mod_duration);
-                System.out.println("Reduced duration counter of " + j + " modifier.");
+                //System.out.println("Reduced duration counter of " + j + " modifier.");
             }
     	}
-        System.out.println("New modifier list: " + mods);
+        //System.out.println("New modifier list: " + mods);
     }
     
     // Functions relating to Inventory use

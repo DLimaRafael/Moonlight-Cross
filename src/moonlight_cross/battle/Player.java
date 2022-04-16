@@ -28,7 +28,6 @@ public class Player extends BattleEntity {
     	items.put(new Potion(), 5);
     	items.put(new Elixir(), 3);
     	items.put(new StrengthPotion(), 2);
-    	System.out.println("ITEM NAME\t\tTYPE\t\tPOWER");
     	for (Item i : items.keySet()) {
     		System.out.println(
     				"> " + i.get_name());
