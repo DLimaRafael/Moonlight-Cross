@@ -1,6 +1,8 @@
 package moonlight_cross.battle;
 
-public class Knight extends BattleEntity implements HumanoidEnemy {
+import moonlight_cross.battle.interfaces.HumanoidBehavior;
+
+public class Knight extends BattleEntity implements HumanoidBehavior {
 
     // Enemy Stats
     public Knight(){
