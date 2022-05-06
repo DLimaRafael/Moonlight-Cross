@@ -41,6 +41,7 @@ public abstract class Item {
 // turn into damage items! ... Maybe.
 class Heal {
 	double effect_amount = 0.0;
+
 	public Heal (double power) {
 		effect_amount = power;
 	}

@@ -6,3 +6,15 @@ WIP
 
 ## Base Mechanics
 WIP
+
+## TODO LIST
+- [ ] Battle System
+  - [x] Basic Attacking/Defending
+  - [ ] Spell usage
+  - [ ] Item usage
+  - [ ] Battle Interactions
+  - [ ] Summoning system
+- [ ] Exploration System
+  - [ ] Dialogue handling
+  - [ ] Key item usage
+- [ ] Buying/Selling
