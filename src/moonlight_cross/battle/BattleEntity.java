@@ -3,6 +3,8 @@ package moonlight_cross.battle;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /*
 Different from the interfaces, which will allocate enemies in specific types,
@@ -33,7 +35,8 @@ public abstract class BattleEntity {
      * of buffs/debuffs
      * */
     HashMap<String, ArrayList<Double>> mods = new HashMap<>();
-    HashMap<Item, Integer> items = new HashMap<>();
+    HashMap<Item, Integer> items = new LinkedHashMap<>();
+    List<Spell> spells = new ArrayList<>();
     
     // Getters and Setters
     // Note: Rework this for more adaptable code.

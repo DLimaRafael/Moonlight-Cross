@@ -1,6 +1,5 @@
 package moonlight_cross.battle;
 
-import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Battle {
@@ -14,6 +13,7 @@ public class Battle {
     public static void battleStart(){
     	BattleUnits.setPlayer(new Player());
     	BattleUnits.setEnemy(new Knight());
+        if (BattleUnits.getPlayer() == null || BattleUnits.getEnemy() == null) return;
     	player = BattleUnits.getPlayer();
     	enemy = BattleUnits.getEnemy();
         new Battle().battleControl();
@@ -53,17 +53,9 @@ public class Battle {
     public void playerTurn(){
         System.out.println("Player's turn.");
         System.out.println("Choose your action...");
-        /*String[] actions = new String[] {
-        	"atk", "def", "info", "item", "skill"
-        };*/
         // There must be a better way to do this.
-        LinkedHashMap<String, String> actions = new LinkedHashMap<>();
-        actions.put("Attack", "atk");
-        actions.put("Defend", "def");
-        actions.put("Items", "inv");
-        actions.put("Target Info", "info");
-        for (String i : actions.keySet()) {
-        	System.out.println(actions.get(i) + " - " + i);
+        for (String i : player.actions.keySet()) {
+        	System.out.println(player.actions.get(i) + " - " + i);
         }
         String action = input.next();
         
@@ -78,13 +70,19 @@ public class Battle {
         
         if (action.equalsIgnoreCase("atk")) {
             player.attack(enemy);
+        } else if (action.equalsIgnoreCase("mgc")){
+            player.useSpell();
+            return;
         } else if (action.equalsIgnoreCase("inv")) {
         	player.useItem();
             System.out.print("USE: ");
             action = input.next();
             for(Item i : player.items.keySet()){
                 if (action.equalsIgnoreCase(i.get_name())){
-                    System.out.println(i.get_name() + "\n" + i.get_description());
+                    player.items.replace(i, player.items.get(i)-1);
+                    if (player.items.get(i) == 0) {
+                        player.items.remove(i);
+                    }
                     break;
                 }
             }

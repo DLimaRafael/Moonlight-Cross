@@ -41,7 +41,15 @@ enum Type {
 abstract class Effect {
     protected boolean is_overtime = false;
     protected Type element = Type.NEUTRAL;
+
+    // Amount refers to the effect intensity.
     protected int amount = 0;
+
+    public Effect(boolean is_overtime, Type element, int amount) {
+        this.is_overtime = is_overtime;
+        this.element = element;
+        this.amount = amount;
+    }
 
     // Cast is declared here and not in the Spell class because if
     // a spell doesn't have an active effect in battle, it makes no
@@ -60,10 +68,8 @@ abstract class Effect {
 }
 
 class DamageEffect extends Effect {
-    public DamageEffect(int damage, Type element, boolean is_overtime) {
-        this.amount = damage;
-        this.element = element;
-        this.is_overtime = is_overtime;
+    public DamageEffect(boolean is_overtime, Type element, int amount) {
+        super(is_overtime, element, amount);
     }
 
     @Override
@@ -73,9 +79,14 @@ class DamageEffect extends Effect {
 }
 
 class HealingEffect extends Effect {
+    public HealingEffect(boolean is_overtime, Type element, int amount) {
+        super(is_overtime, element, amount);
+    }
+
     @Override
     public void Cast(BattleEntity target){
-
+        target.setHp(target.getHp() + amount);
+        System.out.println(target.NAME + " was healed by " + amount + " HP!");
     }
 }
 
@@ -84,7 +95,7 @@ class Fireball extends Spell {
         name = "Fireball";
         description = "The most basic of all offensive spells!";
         cost = 5;
-        effect = new DamageEffect(5, Type.FIRE, false);
+        effect = new DamageEffect(false, Type.FIRE, 5);
     }
 }
 
@@ -93,6 +104,6 @@ class Blizzard extends Spell {
         name = "Blizzard";
         description = "Sends shards of crystallized ice at high velocity.";
         cost = 5;
-        effect = new DamageEffect(5, Type.WATER, false);
+        effect = new DamageEffect(false, Type.WATER, 5);
     }
 }
