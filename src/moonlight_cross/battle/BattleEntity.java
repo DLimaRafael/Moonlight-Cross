@@ -35,7 +35,6 @@ public abstract class BattleEntity {
      * of buffs/debuffs
      * */
     HashMap<String, ArrayList<Double>> mods = new HashMap<>();
-    HashMap<Item, Integer> items = new LinkedHashMap<>();
     List<Spell> spells = new ArrayList<>();
     
     // Getters and Setters
@@ -142,10 +141,6 @@ public abstract class BattleEntity {
     }
     
     // Functions relating to Inventory use
-    public void addItem(Item item, int amount) {
-    	items.put(item, amount);
-    }
-    
     public void removeItem(Item item, int amount) {
     	items.remove(item);
     }
