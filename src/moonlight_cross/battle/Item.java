@@ -6,7 +6,8 @@ public abstract class Item {
 	protected String function;
 	protected String type;
 
-	protected Object effect;
+	protected Buff buff;
+	protected Heal heal;
 	
 	public String get_name() {
 		return name;
@@ -19,6 +20,12 @@ public abstract class Item {
 	}
 	public String get_type(){
 		return type;
+	}
+	public Buff get_buffs(){
+		return buff;
+	}
+	public Heal get_heal(){
+		return heal;
 	}
 	
 	public void set_name(String new_name) {
@@ -86,7 +93,7 @@ class Potion extends Item {
 		description = "A simple potion";
 		function = "Heals a small amount of HP.";
 		type = "Healing";
-		effect = new Heal(15);
+		heal = new Heal(15);
 	}
 }
 
@@ -96,7 +103,7 @@ class Elixir extends Item {
 		description = "A golden colored liquid, surely it's not...?";
 		function = "Heals a moderate amount of HP";
 		type = "Healing";
-		effect = new Heal(45);
+		heal = new Heal(45);
 	}
 }
 
@@ -106,6 +113,6 @@ class StrengthPotion extends Item {
 		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for 3 turns";
 		type = "Utility";
-		effect = new Buff(3, 0.5, "ATK");
+		buff = new Buff(3, 0.5, "ATK");
 	}
 }
