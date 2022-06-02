@@ -67,29 +67,21 @@ public class Battle {
             try {System.in.read();} catch (Exception e){}
             return;
         }
-        
+        // Attacking
         if (action.equalsIgnoreCase("atk")) {
             player.attack(enemy);
+        // Spells
         } else if (action.equalsIgnoreCase("mgc")){
             player.useSpell();
             return;
+        // Inventory
         } else if (action.equalsIgnoreCase("inv")) {
-        	player.useItem();
-            System.out.print("USE: ");
-            action = input.next();
-            for(Item i : player.items.keySet()){
-                if (action.equalsIgnoreCase(i.get_name())){
-                    player.items.replace(i, player.items.get(i)-1);
-                    if (player.items.get(i) == 0) {
-                        player.items.remove(i);
-                    }
-                    break;
-                }
-            }
-
+        	player.inv.showInv();
         	return;
+        // Defending
         } else if (action.equalsIgnoreCase("def")){
             player.defend();
+        // Invalid Commands
         } else {
         	System.out.println("Invalid command \"" + action + "\".");
         	return;
