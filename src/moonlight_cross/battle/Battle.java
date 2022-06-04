@@ -24,7 +24,7 @@ public class Battle {
         	"Battle finished!\nEnemy HP: "+enemy.HP+
         	"\nPlayer HP: "+player.HP
         );
-        
+        input.close();
     }
     
     /* Controls the flow of battle, alternating between enemy and player turns,
@@ -57,6 +57,7 @@ public class Battle {
         for (String i : player.actions.keySet()) {
         	System.out.println(player.actions.get(i) + " - " + i);
         }
+        System.out.print("> ");
         String action = input.next();
         
         // Disables the enemy turn, since this is an action that shouldn't
@@ -77,7 +78,7 @@ public class Battle {
         // Inventory
         } else if (action.equalsIgnoreCase("inv")) {
         	player.inv.showInv();
-        	return;
+            if (player.inv.wasItemUsed() == false) return;
         // Defending
         } else if (action.equalsIgnoreCase("def")){
             player.defend();

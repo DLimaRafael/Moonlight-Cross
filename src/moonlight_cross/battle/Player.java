@@ -29,6 +29,9 @@ public class Player extends BattleEntity {
         actions.put("Magic", "mgc");
         actions.put("Items", "inv");
         actions.put("Target Info", "info");
+
+        inv.addItem(new Potion(), 3);
+        inv.addItem(new StrengthPotion(), 2);
     }
     
     @Override
@@ -44,7 +47,7 @@ public class Player extends BattleEntity {
         spells.add(new Fireball());
         spells.add(new Blizzard());
         for (Spell i : spells) {
-            System.out.println("> " + i.get_name().toUpperCase());
+            System.out.println("> " + i.getName().toUpperCase());
         }
         System.out.println();
     }

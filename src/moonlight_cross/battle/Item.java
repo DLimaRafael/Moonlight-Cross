@@ -1,83 +1,94 @@
 package moonlight_cross.battle;
 
+import moonlight_cross.battle.components.ItemEffect;
+
 public abstract class Item {
 	protected String name;
 	protected String description;
 	protected String function;
-	protected String type;
 
-	protected Buff buff;
-	protected Heal heal;
+	protected enum Type {
+		HEALING,
+		BUFFING,
+		DAMAGE,
+		KEY
+	};
+
+	Type type;
+
+	protected ItemEffect effect;
 	
-	public String get_name() {
+	public String getName() {
 		return name;
 	}
-	public String get_description() {
+	public String getDescription() {
 		return description;
 	}
-	public String get_function(){
+	public String getFunction(){
 		return function;
 	}
-	public String get_type(){
+	public Type getType(){
 		return type;
 	}
-	public Buff get_buffs(){
-		return buff;
-	}
-	public Heal get_heal(){
-		return heal;
+	public ItemEffect getEffect(){
+		return effect;
 	}
 	
-	public void set_name(String new_name) {
+	public void setName(String new_name) {
 		name = new_name;
 	}
-	public void set_description(String new_description) {
+	public void setDescription(String new_description) {
 		description = new_description;
 	}
-	public void set_function(String new_function){
+	public void setFunction(String new_function){
 		function = new_function;
 	}
-	public void set_type(String new_type){
+	public void setType(Type new_type){
 		type = new_type;
 	}
 }
 
 // Item types
-
 // For potions, maybe if you set the amount to negative, they'll
 // turn into damage items! ... Maybe.
-class Heal {
-	double effect_amount = 0.0;
-
-	public Heal (double power) {
-		effect_amount = power;
+class Heal extends ItemEffect {
+	public Heal(double potency) {
+		super(potency);
 	}
-	public void heal(BattleEntity target) {
-		target.HP += effect_amount;
-		System.out.println(target.NAME + " was healed by [" + effect_amount + "]!");
+
+	@Override
+	public void cast(BattleEntity target) {
+		target.HP += potency;
+		System.out.println(target.getName() + " was healed by [" + potency + "]!");
 	}
 }
 
 // For setting buffs
-class Buff {
+class Buff extends ItemEffect{
 	// The duration is set to a minimum of zero, being the current turn.
 	int duration = 0;
-	Double mod = 0.0;
 	String stat;
+
 	public Buff(int duration, Double mod, String stat) {
+		super(mod);
 		this.duration = duration;
-		this.mod = mod;
 		this.stat = stat;
 	}
-	public void add_buff(BattleEntity target) {
-		target.setMod(stat, mod, duration);
+
+	public void addBuff(BattleEntity target) {
+		target.setMod(stat, potency, duration);
 	}
 
-	public int get_duration(){
+	public int getDuration(){
 		return duration;
 	}
-	public void set_duration(int duration){
+	public void setDuration(int duration){
 		this.duration = duration;
+	}
+
+	@Override
+	public void cast(BattleEntity target) {
+		
 	}
 }
 
@@ -92,8 +103,8 @@ class Potion extends Item {
 		name = "Potion";
 		description = "A simple potion";
 		function = "Heals a small amount of HP.";
-		type = "Healing";
-		heal = new Heal(15);
+		type = Type.HEALING;
+		effect = new Heal(15);
 	}
 }
 
@@ -102,8 +113,8 @@ class Elixir extends Item {
 		name = "Elixir of Vitality";
 		description = "A golden colored liquid, surely it's not...?";
 		function = "Heals a moderate amount of HP";
-		type = "Healing";
-		heal = new Heal(45);
+		type = Type.HEALING;
+		effect = new Heal(45);
 	}
 }
 
@@ -112,7 +123,7 @@ class StrengthPotion extends Item {
 		name = "Fortifier";
 		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for 3 turns";
-		type = "Utility";
-		buff = new Buff(3, 0.5, "ATK");
+		type = Type.BUFFING;
+		effect = new Buff(3, 0.5, "ATK");
 	}
 }

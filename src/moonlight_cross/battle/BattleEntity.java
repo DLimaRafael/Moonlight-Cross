@@ -3,7 +3,6 @@ package moonlight_cross.battle;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /*
@@ -70,6 +69,14 @@ public abstract class BattleEntity {
         SPD = amount;
     }
     
+    public String getName(){
+        return NAME;
+    }
+
+    public String getDescription(){
+        return DESCRIPTION;
+    }
+
     public void attack(BattleEntity target){
     	// Checks if there's a modifier applicable to Attack
     	int atk_mod = (int) (getMod("atk") * ATK);
@@ -138,11 +145,6 @@ public abstract class BattleEntity {
             }
     	}
         //System.out.println("New modifier list: " + mods);
-    }
-    
-    // Functions relating to Inventory use
-    public void removeItem(Item item, int amount) {
-    	items.remove(item);
     }
 }
 
