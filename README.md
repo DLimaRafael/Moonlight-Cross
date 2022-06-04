@@ -14,13 +14,15 @@ WIP
 - [ ] Battle System
   - [x] Basic Attacking/Defending
   - [ ] Spell usage
-  - [ ] Item usage
+  - [x] Item usage
   - [ ] Battle Interactions
   - [ ] Summoning system
   - [ ] Character Leveling
+  - [ ] Turn system for multiple enemies/allies
 - [ ] Exploration System
   - [ ] Dialogue handling
   - [ ] Key item usage
+  - [ ] Quest system
 - [ ] Buying/Selling
 
 ## FAQ on Code Structure
