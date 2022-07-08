@@ -13,7 +13,7 @@ WIP
 ## TODO LIST
 - [ ] Battle System
   - [x] Basic Attacking/Defending
-  - [ ] Spell usage
+  - [x] Spell usage
   - [x] Item usage
   - [ ] Battle Interactions
   - [ ] Summoning system
