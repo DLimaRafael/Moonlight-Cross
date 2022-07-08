@@ -27,9 +27,11 @@ public class Battle {
         input.close();
     }
     
-    /* Controls the flow of battle, alternating between enemy and player turns,
+    /*************************************************************************
+    * Controls the flow of battle, alternating between enemy and player turns,
     * recalculating modifiers, etc.
-    */
+    * !!!This needs refactoring for multiple enemies/allies!!!
+    **************************************************************************/
     public void battleControl(){
         while(player.isAlive || enemy.isAlive){
             if (!player.isAlive || !enemy.isAlive) break;
@@ -73,8 +75,8 @@ public class Battle {
             player.attack(enemy);
         // Spells
         } else if (action.equalsIgnoreCase("mgc")){
-            player.useSpell();
-            return;
+            player.mgc.showSpells();
+            if (player.mgc.wasSpellUsed() == false) return;
         // Inventory
         } else if (action.equalsIgnoreCase("inv")) {
         	player.inv.showInv();

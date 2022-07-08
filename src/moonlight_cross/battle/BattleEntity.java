@@ -3,7 +3,6 @@ package moonlight_cross.battle;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /*
 Different from the interfaces, which will allocate enemies in specific types,
@@ -13,28 +12,26 @@ such as setters and getters.
 */
 public abstract class BattleEntity {
     // Enemy Stats
-    int MAX_HP = 0;
-    int HP = 0;
-    int ATK = 0;
-    int DEF = 0;
-    int SPD = 0;
+    protected int MAX_HP = 0;
+    protected int HP = 0;
+    protected int ATK = 0;
+    protected int DEF = 0;
+    protected int SPD = 0;
     
-    String NAME = "";
-    String DESCRIPTION = "";
+    protected String NAME = "";
+    protected String DESCRIPTION = "";
     
-    boolean isAlive = true;
-    int temp_stat = 0; // Variable to hold stats for calculations
-    int damage = 0; // Variable to keep track of damage dealt/received.
-    
+    protected boolean isAlive = true;
+    protected int damage = 0; // Variable to keep track of damage dealt/received.
+
     // Modifiers
-    /*
+    /********************************************************************************
      * The way this works is simple, whenever you modify a stat, instead of changing
      * the variable itself, you multiply it by the entry corresponding to it inside
      * mods, this leaves the original attribute intact, allowing for cleansing
      * of buffs/debuffs
-     * */
+    *********************************************************************************/
     HashMap<String, ArrayList<Double>> mods = new HashMap<>();
-    List<Spell> spells = new ArrayList<>();
     
     // Getters and Setters
     // Note: Rework this for more adaptable code.
@@ -72,10 +69,26 @@ public abstract class BattleEntity {
     public String getName(){
         return NAME;
     }
+    public void setName(String newName){
+        NAME = newName;
+    }
 
     public String getDescription(){
         return DESCRIPTION;
     }
+    public void setDescription(String newDescription){
+        DESCRIPTION = newDescription;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    /*
+     * Methods for battle behavior, although this could be transported
+     * to a component, considering some outside-of-battle entities might
+     * have basic attributes, but lack any of these functions.
+     */
 
     public void attack(BattleEntity target){
     	// Checks if there's a modifier applicable to Attack
@@ -86,9 +99,10 @@ public abstract class BattleEntity {
     public void takeDamage(int amount){
         // Checks if there's a modifier applicable to Defense
     	double def_mod = (getMod("def") * DEF);
-        /* Casts the final result as an int, since, if the modifier is
-        * initially lower than 1, it'll simply become zero. */
-        System.out.println(def_mod + " " + 3 + 0.5);
+        /*
+        * Casts the final result as an int, since, if the modifier is
+        * initially lower than 1, it'll simply become zero.
+        */
         damage = Math.max(amount - (int) (DEF + def_mod), 0);
         setHp(HP - damage);
     }
@@ -106,10 +120,12 @@ public abstract class BattleEntity {
      * This collection of functions serve the purpose of giving support
      * to a buff/debuff system by matching Strings and modifiers, applying
      * them to stats and cleaning afterwards.
-     * 
-     * Yes, I know it isn't ideal, probably, but doing it the proper way doesn't
-     * seem half as fun so this is what we're going with for now.
-     * */
+    */
+
+    /***
+     * Function for getting a specific modifier from the mods list.
+     * @return the modifier's potency as a double.
+     ***/
     public double getMod(String stat) {
     	double mod = 0;
     	for (String i : mods.keySet()) {
@@ -125,9 +141,11 @@ public abstract class BattleEntity {
     	mods.put(stat, new ArrayList<Double>());
         mods.get(stat).add(mod);
         mods.get(stat).add(Double.valueOf(duration));
-        //System.out.println(mods);
     }
     
+    /***
+     * Called every turn to check and update the modifier list.
+     ***/
     public void calcMods() {
     	if (mods.isEmpty()) return; // Self-explanatory
     	// Iterates through mods for every String key in there
@@ -135,16 +153,13 @@ public abstract class BattleEntity {
             Double mod_duration = mods.get(j).get(1);
     		// Checks if modifier expired.
     		if (mod_duration <= 0) {
-                //System.out.println("Removing modifier " + j + "...");
                 mods.remove(j);
             } else {
                 // Reduces duration counter otherwise
                 mod_duration -= 1;
                 mods.get(j).set(1, mod_duration);
-                //System.out.println("Reduced duration counter of " + j + " modifier.");
             }
     	}
-        //System.out.println("New modifier list: " + mods);
     }
 }
 

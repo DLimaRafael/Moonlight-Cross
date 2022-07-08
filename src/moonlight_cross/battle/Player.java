@@ -3,6 +3,7 @@ package moonlight_cross.battle;
 import java.util.LinkedHashMap;
 
 import moonlight_cross.battle.components.Inventory;
+import moonlight_cross.battle.components.SpellHandler;
 
 public class Player extends BattleEntity {
 	int MAX_MOON = 100;
@@ -12,7 +13,8 @@ public class Player extends BattleEntity {
     // as using a "actions.put()" and connecting to its implementation.
     LinkedHashMap<String, String> actions = new LinkedHashMap<>();
 
-    Inventory inv = new Inventory();
+    Inventory inv = new Inventory(this);
+    SpellHandler mgc = new SpellHandler(this);
 	
     public Player(){
         MAX_HP = 20;
@@ -32,23 +34,15 @@ public class Player extends BattleEntity {
 
         inv.addItem(new Potion(), 3);
         inv.addItem(new StrengthPotion(), 2);
+
+        mgc.addSpell(new Fireball());
     }
     
     @Override
     public void attack(BattleEntity target){
         if (target == null) return;
-        System.out.println("You attack "+ target.NAME +"!");
+        System.out.println("You attack "+ target.getName() +"!");
         target.takeDamage(ATK);
         System.out.println("You deal "+ target.damage + " points of damage!");
-    }
-
-    public void useSpell(){
-        System.out.println("SPELLS");
-        spells.add(new Fireball());
-        spells.add(new Blizzard());
-        for (Spell i : spells) {
-            System.out.println("> " + i.getName().toUpperCase());
-        }
-        System.out.println();
     }
 }
