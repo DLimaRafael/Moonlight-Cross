@@ -24,6 +24,16 @@ WIP
   - [ ] Key item usage
   - [ ] Quest system
 - [ ] Buying/Selling
+- [ ] GUI
+  - [ ] Menus
+    - [ ] Battle
+    - [ ] Exploration
+    - [ ] Shopping
+    - [ ] Inventory
+  - [ ] Title Screen
+### Optional / To Be Considered
+- [ ] Mouse Support
+- [ ] Audio Support
 
 ## FAQ on Code Structure
 More will be added to this as I go updating the code and implementing new wacky elements that need to be explained in further detail.
