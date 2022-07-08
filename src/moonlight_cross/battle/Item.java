@@ -88,7 +88,7 @@ class Buff extends ItemEffect{
 
 	@Override
 	public void cast(BattleEntity target) {
-		
+		addBuff(target);
 	}
 }
 

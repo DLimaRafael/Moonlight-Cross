@@ -14,7 +14,17 @@ public class Inventory {
     private Scanner input = new Scanner(System.in);
     
     private boolean usedItem = false;
+
+    private BattleEntity owner;
     
+    /****************************************
+    * Checks whether an item was used or not.
+    *****************************************/
+
+    public Inventory(BattleEntity owner){
+        this.owner = owner;
+    }
+
     public boolean wasItemUsed(){
         return usedItem;
     }
@@ -33,7 +43,7 @@ public class Inventory {
     public void useItem(String item, BattleEntity target){
         Item i = seekItem(item);
         if (i == null) return;
-        System.out.println(i.getType());
+        System.out.println(owner.getName() + " used [" + item.toUpperCase() + "]!");
         i.getEffect().cast(target);
         removeItem(item, 1);
         usedItem = true;
