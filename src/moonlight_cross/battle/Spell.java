@@ -43,6 +43,13 @@ public abstract class Spell {
     public void setElement(Type element) {
         this.element = element;
     }
+
+    public SpellEffect getEffect() {
+        return effect;
+    }
+    public void setEffect(SpellEffect effect) {
+        this.effect = effect;
+    }
 }
 
 class DamageEffect extends SpellEffect {
@@ -74,7 +81,7 @@ class Fireball extends Spell {
         description = "The most basic of all offensive spells!";
         cost = 5;
         element = Type.FIRE;
-        effect = new DamageEffect(false, 5);
+        effect = new DamageEffect(false, 10);
     }
 }
 
@@ -84,6 +91,6 @@ class Blizzard extends Spell {
         description = "Sends shards of crystallized ice at high velocity.";
         cost = 5;
         element = Type.WATER;
-        effect = new DamageEffect(false, 5);
+        effect = new DamageEffect(false, 10);
     }
 }
