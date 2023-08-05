@@ -1,12 +1,12 @@
-package moonlight_cross.battle.components;
+package battle.components;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import moonlight_cross.battle.BattleEntity;
-import moonlight_cross.battle.BattleUnits;
-import moonlight_cross.battle.Spell;
+import battle.BattleEntity;
+import battle.BattleUnits;
+import battle.Spell;
 
 public class SpellHandler {
     private List<Spell> spells = new ArrayList<>();

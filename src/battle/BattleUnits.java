@@ -1,4 +1,4 @@
-package moonlight_cross.battle;
+package battle;
 
 public class BattleUnits {
     private static Player player;

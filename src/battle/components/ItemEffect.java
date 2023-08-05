@@ -1,6 +1,6 @@
-package moonlight_cross.battle.components;
+package battle.components;
 
-import moonlight_cross.battle.BattleEntity;
+import battle.BattleEntity;
 
 public abstract class ItemEffect {
 	protected double potency = 0.0;

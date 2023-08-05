@@ -1,4 +1,4 @@
-package moonlight_cross.battle;
+package battle;
 
 import java.util.Scanner;
 

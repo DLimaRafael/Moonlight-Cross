@@ -1,6 +1,6 @@
-package moonlight_cross.exploration;
+package exploration;
 
-import moonlight_cross.battle.Battle;
+import battle.Battle;
 
 public class Stage {
 

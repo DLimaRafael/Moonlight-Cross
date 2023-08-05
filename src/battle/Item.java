@@ -1,6 +1,6 @@
-package moonlight_cross.battle;
+package battle;
 
-import moonlight_cross.battle.components.ItemEffect;
+import battle.components.ItemEffect;
 
 public abstract class Item {
 	protected String name;

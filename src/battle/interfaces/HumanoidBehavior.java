@@ -1,4 +1,4 @@
-package moonlight_cross.battle.interfaces;
+package battle.interfaces;
 /*
 This interface is responsible for being a template for humanoid enemies.
 */

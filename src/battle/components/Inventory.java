@@ -1,12 +1,12 @@
-package moonlight_cross.battle.components;
+package battle.components;
 
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import moonlight_cross.battle.BattleEntity;
-import moonlight_cross.battle.BattleUnits;
-import moonlight_cross.battle.Item;
+import battle.BattleEntity;
+import battle.BattleUnits;
+import battle.Item;
 
 public class Inventory {
     private HashMap<Item, Integer> items = new LinkedHashMap<>();

@@ -1,6 +1,6 @@
-package moonlight_cross.battle;
+package battle;
 
-import moonlight_cross.battle.components.SpellEffect;
+import battle.components.SpellEffect;
 
 public abstract class Spell {
     protected String name;

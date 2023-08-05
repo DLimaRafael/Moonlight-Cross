@@ -1,9 +1,9 @@
-package moonlight_cross.battle;
+package battle;
 
 import java.util.LinkedHashMap;
 
-import moonlight_cross.battle.components.Inventory;
-import moonlight_cross.battle.components.SpellHandler;
+import battle.components.Inventory;
+import battle.components.SpellHandler;
 
 public class Player extends BattleEntity {
 	int MAX_MOON = 100;
