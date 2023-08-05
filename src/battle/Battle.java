@@ -2,28 +2,32 @@ package battle;
 
 import java.util.Scanner;
 
-public class Battle {
+import engine.InputHandler;
+import engine.Render;
+
+public final class Battle {
     Scanner input = new Scanner(System.in);
     
-    static Player player;
-    static BattleEntity enemy;
+    Player player;
+    BattleEntity enemy;
     
-    boolean turn_end = false;
+    boolean turnEnd = false;
     
-    public static void battleStart(){
+    public void battleStart(){
     	BattleUnits.setPlayer(new Player());
     	BattleUnits.setEnemy(new Knight());
         if (BattleUnits.getPlayer() == null || BattleUnits.getEnemy() == null) return;
     	player = BattleUnits.getPlayer();
     	enemy = BattleUnits.getEnemy();
-        new Battle().battleControl();
+        battleControl();
     }
     
     public void battleEnd(){
-        System.out.println(
-        	"Battle finished!\nEnemy HP: "+enemy.HP+
-        	"\nPlayer HP: "+player.HP
-        );
+        if (player.isAlive) {
+            System.out.println("You've defeated " + enemy.getName() + "!");
+        } else {
+            System.out.println(enemy.getName() + " has defeated you!");
+        }
         input.close();
     }
     
@@ -33,15 +37,14 @@ public class Battle {
     * !!!This needs refactoring for multiple enemies/allies!!!
     **************************************************************************/
     public void battleControl(){
-        while(player.isAlive || enemy.isAlive){
-            if (!player.isAlive || !enemy.isAlive) break;
-            turn_end = false;
+        while(player.isAlive && enemy.isAlive){
+            Render.clearScreen();
             printUI();
             playerTurn();
-            if (turn_end){
+            if (turnEnd) {
                 player.calcMods();
                 enemyTurn();
-                System.out.println("Press Enter to finish round.");
+                System.out.print("...");
                 try {System.in.read();} catch (Exception e){}
             }
         }
@@ -49,7 +52,11 @@ public class Battle {
     }
     
     public void printUI(){
-        System.out.println("Enemy HP: "+ enemy.HP + "\nYour HP: "+ player.HP);
+        Render.printSeparator('=');
+        System.out.println(String.format("HP: [%d/%d]", player.getHp(), player.getMaxHp()));
+        System.out.println(String.format("MP: [%d/%d]", player.MOON, player.MAX_MOON));
+        // System.out.println("Enemy HP: "+ enemy.HP + "\nYour HP: "+ player.HP);
+        Render.printSeparator('=');
     }    
     
     public void playerTurn(){
@@ -59,14 +66,19 @@ public class Battle {
         for (String i : player.actions.keySet()) {
         	System.out.println(player.actions.get(i) + " - " + i);
         }
-        System.out.print("> ");
-        String action = input.next();
         
-        // Disables the enemy turn, since this is an action that shouldn't
-        // finish the player's turn.
+        /************************************************************************* 
+        * Loops until the player takes an action that should end their turn. This avoids
+        * having to check for invalid commands, as the InputHandler already deals with that
+        * on its own, making input handling much easier.
+        **************************************************************************/
+        // Converts action Map into a String array.
+        String[] actionList = player.actions.values().toArray(new String[0]);
+        String action = InputHandler.readString("> ", actionList);
+
         if (action.equalsIgnoreCase("info")){
             enemy.showInfo();
-            System.out.println("Press Enter to go back...");
+            System.out.print("...");
             try {System.in.read();} catch (Exception e){}
             return;
         }
@@ -84,12 +96,9 @@ public class Battle {
         // Defending
         } else if (action.equalsIgnoreCase("def")){
             player.defend();
-        // Invalid Commands
-        } else {
-        	System.out.println("Invalid command \"" + action + "\".");
-        	return;
         }
-        turn_end = true;
+
+        turnEnd = true;
     }
     
     public void enemyTurn(){

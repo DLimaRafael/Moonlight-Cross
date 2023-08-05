@@ -1,6 +1,6 @@
 package battle;
 
-public class BattleUnits {
+public final class BattleUnits {
     private static Player player;
     private static BattleEntity enemy;
     

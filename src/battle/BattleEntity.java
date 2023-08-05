@@ -42,6 +42,10 @@ public abstract class BattleEntity {
         ATK = amount;
     }
     
+    public int getMaxHp(){
+        return MAX_HP;
+    }
+    
     public int getHp(){
         return HP;
     }
@@ -162,38 +166,3 @@ public abstract class BattleEntity {
     	}
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
