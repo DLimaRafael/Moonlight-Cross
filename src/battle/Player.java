@@ -21,7 +21,7 @@ public class Player extends BattleEntity {
         HP = MAX_HP;
         ATK = 5;
         DEF = 3;
-        SPD = 2;
+        SPD = 10;
         
         NAME = "???";
         DESCRIPTION = "A descendant of a long dynasty of magic users.";
@@ -40,9 +40,8 @@ public class Player extends BattleEntity {
     
     @Override
     public void attack(BattleEntity target){
-        if (target == null) return;
+        super.attack(target);
         System.out.println("You attack "+ target.getName() +"!");
-        target.takeDamage(ATK);
         System.out.println("You deal "+ target.damage + " points of damage!");
     }
 }

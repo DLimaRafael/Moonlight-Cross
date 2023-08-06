@@ -3,15 +3,18 @@ package battle;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import battle.components.Modifier;
 
 /*
 Different from the interfaces, which will allocate enemies in specific types,
-the abstract class Enemy just identifies them as an enemy, implementing
+the abstract class BattleEntity just identifies them as a BattleEntity, implementing
 default methods that won't need to be built by the entities themselves, 
 such as setters and getters.
 */
 public abstract class BattleEntity {
-    // Enemy Stats
+    // Entity Stats
     protected int MAX_HP = 0;
     protected int HP = 0;
     protected int ATK = 0;
@@ -26,12 +29,11 @@ public abstract class BattleEntity {
 
     // Modifiers
     /********************************************************************************
-     * The way this works is simple, whenever you modify a stat, instead of changing
-     * the variable itself, you multiply it by the entry corresponding to it inside
-     * mods, this leaves the original attribute intact, allowing for cleansing
-     * of buffs/debuffs
+     * Modifiers are temporary entities, created and deleted dynamically. You can have
+     * both percentage based modifiers and addition based modifiers, the first is
+     * for buffs and debuffs, the latter is for equipment.
     *********************************************************************************/
-    HashMap<String, ArrayList<Double>> mods = new HashMap<>();
+    HashMap<String, List<Modifier>> mods = new HashMap<>();
     
     // Getters and Setters
     // Note: Rework this for more adaptable code.
@@ -44,6 +46,9 @@ public abstract class BattleEntity {
     
     public int getMaxHp(){
         return MAX_HP;
+    }
+    public void setMaxHp(int amount){
+        MAX_HP = amount;
     }
     
     public int getHp(){
@@ -88,6 +93,21 @@ public abstract class BattleEntity {
         return damage;
     }
 
+    public int getTotalModifier(String attrName, int attrValue) {
+        int totalModifier = 0;
+        List<Modifier> statModifiers = mods.get(attrName);
+        if (statModifiers != null) {
+            for (Modifier modifier : statModifiers) {
+                if (modifier.isPercentage()) {
+                    totalModifier += attrValue * modifier.getPotency() / 100;
+                } else {
+                    totalModifier += modifier.getPotency();
+                }
+            }
+        }
+        return totalModifier;
+    }
+
     /*
      * Methods for battle behavior, although this could be transported
      * to a component, considering some outside-of-battle entities might
@@ -95,26 +115,20 @@ public abstract class BattleEntity {
      */
 
     public void attack(BattleEntity target){
-    	// Checks if there's a modifier applicable to Attack
-    	int atk_mod = (int) (getMod("atk") * ATK);
-        target.takeDamage(ATK + atk_mod);
+        damage = (int) ATK + getTotalModifier("atk", ATK);
+        target.takeDamage(damage);
     }
     
     public void takeDamage(int amount){
         // Checks if there's a modifier applicable to Defense
-    	double def_mod = (getMod("def") * DEF);
-        /*
-        * Casts the final result as an int, since, if the modifier is
-        * initially lower than 1, it'll simply become zero.
-        */
-        damage = Math.max(amount - (int) (DEF + def_mod), 0);
+        int modifiedDef = DEF + getTotalModifier("def", DEF);
+        damage = Math.max(modifiedDef, 0);
         setHp(HP - damage);
     }
     
     public void defend(){
         // Increases defense by 50%
-        System.out.println(NAME + " is defending!");
-        setMod("def", 0.50, 1);
+        setMod("def", 200, 1, true);
     }
     public void showInfo(){
         System.out.println("NAME: "+NAME+"\n"+DESCRIPTION);
@@ -125,26 +139,14 @@ public abstract class BattleEntity {
      * to a buff/debuff system by matching Strings and modifiers, applying
      * them to stats and cleaning afterwards.
     */
-
-    /***
-     * Function for getting a specific modifier from the mods list.
-     * @return the modifier's potency as a double.
-     ***/
-    public double getMod(String stat) {
-    	double mod = 0;
-    	for (String i : mods.keySet()) {
-            if (stat.equalsIgnoreCase(i)) {
-                // makes mod equal to the actual effect.
-    			mod = mods.get(i).get(0);
-    		}
-    	}
-    	return mod;
-    }
     
-    public void setMod(String stat, Double mod, int duration) {
-    	mods.put(stat, new ArrayList<Double>());
-        mods.get(stat).add(mod);
-        mods.get(stat).add(Double.valueOf(duration));
+    public void setMod(String stat, int potency, int duration, boolean isPercentage) {
+        List<Modifier> statModifiers = mods.get(stat);
+        if (statModifiers == null) {
+            statModifiers = new ArrayList<>();
+            mods.put(stat, statModifiers);
+        }
+        statModifiers.add(new Modifier(isPercentage, potency, duration));
     }
     
     /***
@@ -153,15 +155,17 @@ public abstract class BattleEntity {
     public void calcMods() {
     	if (mods.isEmpty()) return; // Self-explanatory
     	// Iterates through mods for every String key in there
-    	for (String j : mods.keySet()) {
-            Double mod_duration = mods.get(j).get(1);
-    		// Checks if modifier expired.
-    		if (mod_duration <= 0) {
-                mods.remove(j);
-            } else {
-                // Reduces duration counter otherwise
-                mod_duration -= 1;
-                mods.get(j).set(1, mod_duration);
+    	for (String i : mods.keySet()) {
+            for (int j=0;j<=mods.keySet().size();j++){
+                Modifier current = mods.get(i).get(j);
+                int mod_duration = current.getDuration();
+                // Checks if modifier expired.
+                if (mod_duration == 0) {
+                    mods.get(i).remove(j);
+                } else {
+                    // Reduces duration counter otherwise
+                    current.setDuration(-1);
+                }
             }
     	}
     }

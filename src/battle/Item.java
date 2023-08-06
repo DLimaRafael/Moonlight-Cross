@@ -52,13 +52,13 @@ public abstract class Item {
 // For potions, maybe if you set the amount to negative, they'll
 // turn into damage items! ... Maybe.
 class Heal extends ItemEffect {
-	public Heal(double potency) {
+	public Heal(int potency) {
 		super(potency);
 	}
 
 	@Override
 	public void cast(BattleEntity target) {
-		target.HP += potency;
+		target.setHp(target.getHp() + (int) potency);
 		System.out.println(target.getName() + " was healed by [" + potency + "]!");
 	}
 }
@@ -69,14 +69,14 @@ class Buff extends ItemEffect{
 	int duration = 0;
 	String stat;
 
-	public Buff(int duration, Double mod, String stat) {
+	public Buff(int duration, int mod, String stat) {
 		super(mod);
 		this.duration = duration;
 		this.stat = stat;
 	}
 
 	public void addBuff(BattleEntity target) {
-		target.setMod(stat, potency, duration);
+		target.setMod(stat, potency, duration, false);
 	}
 
 	public int getDuration(){
@@ -111,7 +111,7 @@ class Potion extends Item {
 class Elixir extends Item {
 	public Elixir () {
 		name = "Elixir of Vitality";
-		description = "A golden colored liquid, surely it's not...?";
+		description = "A golden colored liquid, it's a tad thick and overwhelmingly sweet.";
 		function = "Heals a moderate amount of HP";
 		type = Type.HEALING;
 		effect = new Heal(45);
@@ -124,6 +124,6 @@ class StrengthPotion extends Item {
 		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for 3 turns";
 		type = Type.BUFFING;
-		effect = new Buff(3, 0.5, "ATK");
+		effect = new Buff(3, 150, "ATK");
 	}
 }

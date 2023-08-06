@@ -3,9 +3,9 @@ package battle.components;
 import battle.BattleEntity;
 
 public abstract class ItemEffect {
-	protected double potency = 0.0;
+	protected int potency = 0;
 
-	public ItemEffect (double potency){
+	public ItemEffect (int potency){
 		this.potency = potency;
 	}
 
