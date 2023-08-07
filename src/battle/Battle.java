@@ -42,7 +42,10 @@ public final class Battle {
             printUI();
             playerTurn();
             if (turnEnd) {
-                player.calcMods();
+                System.out.println(player.getAtk());
+                System.out.println(player.getDef());
+                System.out.println(enemy.getAtk());
+                System.out.println(enemy.getDef());
                 enemyTurn();
                 System.out.print("...");
                 try {System.in.read();} catch (Exception e){}
@@ -60,6 +63,7 @@ public final class Battle {
     }    
     
     public void playerTurn(){
+        player.calcMods();
         System.out.println("Player's turn.");
         System.out.println("Choose your action...");
         // There must be a better way to do this.

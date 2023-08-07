@@ -99,7 +99,7 @@ public abstract class BattleEntity {
         if (statModifiers != null) {
             for (Modifier modifier : statModifiers) {
                 if (modifier.isPercentage()) {
-                    totalModifier += attrValue * modifier.getPotency() / 100;
+                    totalModifier += (attrValue * modifier.getPotency()) / 100;
                 } else {
                     totalModifier += modifier.getPotency();
                 }
@@ -115,20 +115,20 @@ public abstract class BattleEntity {
      */
 
     public void attack(BattleEntity target){
-        damage = (int) ATK + getTotalModifier("atk", ATK);
+        damage = ATK + getTotalModifier("atk", ATK);
         target.takeDamage(damage);
     }
     
     public void takeDamage(int amount){
         // Checks if there's a modifier applicable to Defense
         int modifiedDef = DEF + getTotalModifier("def", DEF);
-        damage = Math.max(modifiedDef, 0);
+        damage = Math.max(amount - modifiedDef, 0);
         setHp(HP - damage);
     }
     
     public void defend(){
         // Increases defense by 50%
-        setMod("def", 200, 1, true);
+        setMod("def", 50, 1, true);
     }
     public void showInfo(){
         System.out.println("NAME: "+NAME+"\n"+DESCRIPTION);
@@ -153,20 +153,18 @@ public abstract class BattleEntity {
      * Called every turn to check and update the modifier list.
      ***/
     public void calcMods() {
-    	if (mods.isEmpty()) return; // Self-explanatory
-    	// Iterates through mods for every String key in there
-    	for (String i : mods.keySet()) {
-            for (int j=0;j<=mods.keySet().size();j++){
-                Modifier current = mods.get(i).get(j);
-                int mod_duration = current.getDuration();
-                // Checks if modifier expired.
-                if (mod_duration == 0) {
-                    mods.get(i).remove(j);
-                } else {
-                    // Reduces duration counter otherwise
-                    current.setDuration(-1);
+        // Update durations and remove expired modifiers using Java 8 streams
+        mods.forEach((attr, modifierList) -> 
+            modifierList.removeIf(mod -> {
+                if (mod.getDuration() > 0) {
+                    mod.setDuration(-1); // Reduce duration otherwise
+                    if (mod.getDuration() == 0) return true;
                 }
-            }
-    	}
+                return false;
+            })
+        );
+    
+        // Remove empty lists from the mods map using Java 8 streams
+        mods.entrySet().removeIf(entry -> entry.getValue().isEmpty());
     }
 }
