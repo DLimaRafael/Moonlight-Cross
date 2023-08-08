@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import moonlight_cross.battle.BattleEntity;
+import moonlight_cross.battle.Actor;
 import moonlight_cross.battle.BattleUnits;
 import moonlight_cross.battle.Spell;
 
@@ -14,9 +14,9 @@ public class SpellHandler {
     private boolean usedSpell = false;
     private Scanner input = new Scanner(System.in);
 
-    private BattleEntity owner;
+    private Actor owner;
 
-    public SpellHandler(BattleEntity owner){
+    public SpellHandler(Actor owner){
         this.owner = owner;
     }
 
@@ -64,7 +64,7 @@ public class SpellHandler {
         this.spells = spells;
     }
 
-    public void useSpell(Spell spell, BattleEntity target){
+    public void useSpell(Spell spell, Actor target){
         if (spell == null) return;
         System.out.println(owner.getName() + " casted " + spell.getName() + "!");
         spell.getEffect().cast(target);

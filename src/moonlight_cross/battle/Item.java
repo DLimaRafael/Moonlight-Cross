@@ -1,10 +1,11 @@
 package moonlight_cross.battle;
 
-import moonlight_cross.battle.components.ItemEffect;
+import moonlight_cross.battle.components.Entity;
 
-public abstract class Item {
-	protected String name;
-	protected String description;
+public abstract class Item extends Entity {
+	public Item(String name){
+		super(name);
+	}
 	protected String function;
 
 	protected enum Type {
@@ -16,79 +17,40 @@ public abstract class Item {
 
 	Type type;
 
-	protected ItemEffect effect;
-	
-	public String getName() {
-		return name;
+	protected Effect effect;
+	public Effect getEffect(){
+		return effect;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public String getFunction(){
-		return function;
-	}
+
 	public Type getType(){
 		return type;
 	}
-	public ItemEffect getEffect(){
-		return effect;
+	public void setType(Type new_type){
+		type = new_type;
 	}
 	
-	public void setName(String new_name) {
-		name = new_name;
-	}
-	public void setDescription(String new_description) {
-		description = new_description;
-	}
 	public void setFunction(String new_function){
 		function = new_function;
 	}
-	public void setType(Type new_type){
-		type = new_type;
+	public String getFunction(){
+		return function;
 	}
 }
 
 // Item types
 // For potions, maybe if you set the amount to negative, they'll
 // turn into damage items! ... Maybe.
-class Heal extends ItemEffect {
-	public Heal(double potency) {
+class Heal extends Effect {
+	public Heal(int potency) {
 		super(potency);
 	}
 
 	@Override
-	public void cast(BattleEntity target) {
-		target.HP += potency;
-		System.out.println(target.getName() + " was healed by [" + potency + "]!");
-	}
-}
-
-// For setting buffs
-class Buff extends ItemEffect{
-	// The duration is set to a minimum of zero, being the current turn.
-	int duration = 0;
-	String stat;
-
-	public Buff(int duration, Double mod, String stat) {
-		super(mod);
-		this.duration = duration;
-		this.stat = stat;
-	}
-
-	public void addBuff(BattleEntity target) {
-		target.setMod(stat, potency, duration);
-	}
-
-	public int getDuration(){
-		return duration;
-	}
-	public void setDuration(int duration){
-		this.duration = duration;
-	}
-
-	@Override
-	public void cast(BattleEntity target) {
-		addBuff(target);
+	public void cast(Actor target) {
+		target.setHp( 
+			target.getHp() + this.getPotency() 
+		);
+		System.out.println(target.getName() + " was healed by [" + this.getPotency() + "]!");
 	}
 }
 
@@ -99,9 +61,9 @@ class Buff extends ItemEffect{
 * of items "in-code" seems impractical and rather tedious.
 */
 class Potion extends Item {
-	public Potion () {
-		name = "Potion";
-		description = "A simple potion";
+	public Potion(){
+		super("Potion");
+		DESCRIPTION = "A simple potion";
 		function = "Heals a small amount of HP.";
 		type = Type.HEALING;
 		effect = new Heal(15);
@@ -109,9 +71,9 @@ class Potion extends Item {
 }
 
 class Elixir extends Item {
-	public Elixir () {
-		name = "Elixir of Vitality";
-		description = "A golden colored liquid, surely it's not...?";
+	public Elixir(){
+		super("Elixir of Vitality");
+		DESCRIPTION = "A golden colored liquid, surely it's not...?";
 		function = "Heals a moderate amount of HP";
 		type = Type.HEALING;
 		effect = new Heal(45);
@@ -119,9 +81,9 @@ class Elixir extends Item {
 }
 
 class StrengthPotion extends Item {
-	public StrengthPotion () {
-		name = "Fortifier";
-		description = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
+	public StrengthPotion(){
+		super("Fortifier");
+		DESCRIPTION = "A concoction made for temporarily increasing your strength, it won't give you muscles though.";
 		function = "Increases ATK attribute for 3 turns";
 		type = Type.BUFFING;
 		effect = new Buff(3, 0.5, "ATK");

@@ -6,7 +6,7 @@ public class Battle {
     Scanner input = new Scanner(System.in);
     
     static Player player;
-    static BattleEntity enemy;
+    static Actor enemy;
     
     boolean turn_end = false;
     
