@@ -8,8 +8,8 @@ import engine.Render;
 public final class Battle {
     Scanner input = new Scanner(System.in);
     
-    Player player;
-    BattleEntity enemy;
+    static Player player;
+    static Actor enemy;
     
     boolean turnEnd = false;
     

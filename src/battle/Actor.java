@@ -7,22 +7,25 @@ import java.util.List;
 
 import battle.components.Modifier;
 
+import battle.components.Entity;
+
 /*
 Different from the interfaces, which will allocate enemies in specific types,
 the abstract class BattleEntity just identifies them as a BattleEntity, implementing
 default methods that won't need to be built by the entities themselves, 
 such as setters and getters.
 */
-public abstract class BattleEntity {
-    // Entity Stats
+public abstract class Actor extends Entity {
+    public Actor(String name){
+        super(name);
+    }
+    
+    // Stats
     protected int MAX_HP = 0;
     protected int HP = 0;
     protected int ATK = 0;
     protected int DEF = 0;
     protected int SPD = 0;
-    
-    protected String NAME = "";
-    protected String DESCRIPTION = "";
     
     protected boolean isAlive = true;
     protected int damage = 0; // Variable to keep track of damage dealt/received.
@@ -38,10 +41,10 @@ public abstract class BattleEntity {
     // Getters and Setters
     // Note: Rework this for more adaptable code.
     public int getAtk(){
-        return ATK;
+        return this.ATK;
     }
     public void setAtk(int amount){
-        ATK = amount;
+        this.ATK = amount;
     }
     
     public int getMaxHp(){
@@ -52,45 +55,31 @@ public abstract class BattleEntity {
     }
     
     public int getHp(){
-        return HP;
+        return this.HP;
     }
     public void setHp(int amount){
-        HP = Math.max(amount, 0);
-        if (HP == 0){
-            isAlive = false;
+        this.HP = Math.max(amount, 0);
+        if (this.HP <= 0){
+            this.isAlive = false;
         }
     }
     
     public int getDef(){
-        return DEF;
+        return this.DEF;
     }
     public void setDef(int amount){
-        DEF = amount;
+        this.DEF = amount;
     }
     
     public int getSpd(){
-        return SPD;
+        return this.SPD;
     }
     public void setSpd(int amount){
-        SPD = amount;
-    }
-    
-    public String getName(){
-        return NAME;
-    }
-    public void setName(String newName){
-        NAME = newName;
-    }
-
-    public String getDescription(){
-        return DESCRIPTION;
-    }
-    public void setDescription(String newDescription){
-        DESCRIPTION = newDescription;
+        this.SPD = amount;
     }
 
     public int getDamage() {
-        return damage;
+        return this.damage;
     }
 
     public int getTotalModifier(String attrName, int attrValue) {
@@ -114,7 +103,7 @@ public abstract class BattleEntity {
      * have basic attributes, but lack any of these functions.
      */
 
-    public void attack(BattleEntity target){
+    public void attack(Actor target){
         damage = ATK + getTotalModifier("atk", ATK);
         target.takeDamage(damage);
     }

@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import battle.components.Inventory;
 import battle.components.SpellHandler;
 
-public class Player extends BattleEntity {
+public class Player extends Actor {
 	int MAX_MOON = 100;
 	int MOON = 0;
 
@@ -17,13 +17,14 @@ public class Player extends BattleEntity {
     SpellHandler mgc = new SpellHandler(this);
 	
     public Player(){
+        super("???");
+        
         MAX_HP = 20;
         HP = MAX_HP;
         ATK = 5;
         DEF = 3;
         SPD = 10;
         
-        NAME = "???";
         DESCRIPTION = "A descendant of a long dynasty of magic users.";
 
         actions.put("Attack", "atk");
@@ -39,7 +40,8 @@ public class Player extends BattleEntity {
     }
     
     @Override
-    public void attack(BattleEntity target){
+    public void attack(Actor target){
+        if (target == null) return;
         super.attack(target);
         System.out.println("You attack "+ target.getName() +"!");
         System.out.println("You deal "+ target.damage + " points of damage!");

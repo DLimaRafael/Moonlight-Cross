@@ -2,7 +2,7 @@ package battle;
 
 public final class BattleUnits {
     private static Player player;
-    private static BattleEntity enemy;
+    private static Actor enemy;
     
     public static void setPlayer(Player p){
         player = p;
@@ -12,11 +12,11 @@ public final class BattleUnits {
     	return player;
     }
     
-    public static void setEnemy(BattleEntity e){
+    public static void setEnemy(Actor e){
         enemy = e;
     }
     
-    public static BattleEntity getEnemy(){
+    public static Actor getEnemy(){
     	return enemy;
     }
 }

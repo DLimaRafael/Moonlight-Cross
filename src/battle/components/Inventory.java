@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import battle.BattleEntity;
+import battle.Actor;
 import battle.BattleUnits;
 import battle.Item;
 
@@ -15,13 +15,13 @@ public class Inventory {
     
     private boolean usedItem = false;
 
-    private BattleEntity owner;
+    private Actor owner;
     
     /****************************************
     * Checks whether an item was used or not.
     *****************************************/
 
-    public Inventory(BattleEntity owner){
+    public Inventory(Actor owner){
         this.owner = owner;
     }
 
@@ -40,7 +40,7 @@ public class Inventory {
     }
 
     // Currently a WIP, still thinking about how this should work.
-    public void useItem(String item, BattleEntity target){
+    public void useItem(String item, Actor target){
         Item i = seekItem(item);
         if (i == null) return;
         System.out.println(owner.getName() + " used [" + item.toUpperCase() + "]!");
